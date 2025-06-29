@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite name="FuctionalTests">
+	<test name="Functionalitytestcases">
+		<classes>
+			<class name="swag.Loginpage" />
+			<class name="endToEndScenarios.endToEndScenarios" />
+			<class name="swag.finishpage" />
+			<class name="swag.Checkoutpage" />
+			<class name="swag.PrdouctPages_functionality" />
+			<class name="swag.Cartpage" />
+			<class name="swag.Homepage" />
+			<class name="swag.SummaryPage" />
+			<class name="swag.Universalarea" />
+		</classes>
+	</test> <!-- Functionalitytestcases -->
+</suite> <!-- Suite -->

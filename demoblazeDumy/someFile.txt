@@ -1,0 +1,8 @@
+some straight bugs that are not due to lack of implementation of features.
+
+the text field has no limit of character.
+the number accepting text ffield is also accepting letters
+there no format type check in text field
+website resoponse is slowe.which needsd api optimization.and performance improvement
+the user can use the app without login(blocker defect)
+

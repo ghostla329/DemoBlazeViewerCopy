@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite thread-count="1" name="normalEndtoEnd">
+	<parameter name="username" value="standard_user" />
+	<parameter name="password" value="secret_sauce"></parameter>
+	<test name="EndToEndTests">
+		<classes>
+			<class name="endToEndScenarios.endToEndScenarios" />
+		</classes>
+	</test> <!-- EndToEndTests -->
+</suite> <!-- normalEndtoEnd -->

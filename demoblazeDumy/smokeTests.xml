@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite">
+	<groups>
+		<run>
+			<include name="smoke" />
+		</run>
+	</groups>
+	<test name="Test">
+		<classes>
+			<class name="functionality.HomePageTest" />
+			<class name="functionality.AllProductPageTest" />
+			<class name="functionality.CartPageTest" />
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->
