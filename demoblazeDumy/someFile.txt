@@ -6,3 +6,6 @@ there no format type check in text field
 website resoponse is slowe.which needsd api optimization.and performance improvement
 the user can use the app without login(blocker defect)
 
+-------------------some assumption(due to lack of crs)---------------------
+1 the hommepage url istwo type url.one is the for before login and one for after login
+ 

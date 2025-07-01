@@ -11,9 +11,19 @@ public class NavBarPom {
 	WebDriverWait wait;
 
 // constructor
-	public NavBarPom(WebDriver driver,WebDriverWait wait) {
+	public NavBarPom(WebDriver driver, WebDriverWait wait) {
 		this.driver = driver;
-		this.wait=wait;
+		this.wait = wait;
+	}
+
+	/**
+	 * 
+	 * @param locator to finds the element when visisble
+	 * @return the WEbelemenet
+	 */
+	private WebElement findWhenVisible(By locator) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+		return driver.findElement(locator);
 	}
 
 //chweck if th econtainer is present
@@ -27,28 +37,77 @@ public class NavBarPom {
 	}
 
 	public WebElement getHomeLabel() {
-		return finder(By.xpath("//a[contains(text(),'Home')]"));
+		return driver.findElement(By.xpath("//a[contains(text(),'Home')]"));
 	}
 
+//------------------------contact label----------------------------------------
 	public WebElement getContactLabel() {
-		return finder(By.xpath("//a[contains(text(),'Contact')]"));
-	}
-//	---------------------------subelement-----------------------------------
 
-//	-------------------------------------------------------------------------
+		WebElement element = driver.findElement(By.xpath("//a[contains(text(),'Contact')]"));
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		return element;
+
+	}
+
+//	---------------------------sub-element-----------------------------------
+
+	/** returns the visisbility status of thre popup */
+	public boolean contactPopupWindowvisibility() {
+		return driver.findElement(By.id("exampleModalLabel")).isDisplayed();
+	}
+
+	public WebElement getContactEmailField() {
+		return findWhenVisible(By.id("recipient-email"));
+	}
+
+	public WebElement getContactNameField() {
+		return findWhenVisible(By.id("recipient-name"));
+	}
+
+	public WebElement getContactMessageField() {
+		return findWhenVisible(By.id("message-text"));
+	}
+
+	public WebElement getContactSendMessageButton() {
+		return findWhenVisible(By.xpath("//button[text()='Send message']"));
+	}
+
+	public WebElement getContactCloseButton() {
+		return driver
+				.findElement(By.xpath("//button[text()='Send message']/preceding-sibling::button[text()='Close']"));
+	}
+
+	public WebElement getContactCloseIcon() {
+		return findWhenVisible(By.xpath("//h5[@id='exampleModalLabel']/following-sibling::button"));
+	}
+
+//	-----------------------------About us--------------------------------------------
 	public WebElement getAboutUsLabel() {
-		return finder(By.xpath("//a[contains(text(),'About us')]"));
+		WebElement element = driver.findElement(By.xpath("//a[contains(text(),'About us')]"));
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		return element;
 	}
-//------------------------------subelement-------------
 
+//------------------------------subelement----------------------
+	public boolean aboutPopupWindowvisibility() {
+		return driver.findElement(By.xpath("//h5[text()='About us']/../..")).isDisplayed();
+	}
+
+	public WebElement getAbouCloseButton() {
+		return findWhenVisible(By.xpath("//h5[text()='About us']/../..//button[text()='Close']"));
+	}
+
+	public WebElement getAboutCloseIcon() {
+		return findWhenVisible(By.xpath("//h5[text()='About us']/following-sibling::button"));
+	}
 //-----------------------------------------------------
 
 	public WebElement getCartLabel() {
-		return finder(By.xpath("//a[contains(text(),'Cart')]"));
+		return findWhenVisible(By.xpath("//a[contains(text(),'Cart')]"));
 	}
 
 	public WebElement getSignUpLabel() {
-		return finder(By.xpath("//a[contains(text(),'Sign up')]"));
+		return findWhenVisible(By.xpath("//a[contains(text(),'Sign up')]"));
 	}
 
 //	---------------------------subelement-----------------------------------
@@ -82,22 +141,9 @@ public class NavBarPom {
 //	-------------------------------------------------------------------------
 
 	public WebElement getLoginLabel() {
-		return finder(By.xpath("//a[contains(text(),'Log in')]"));
+		return findWhenVisible(By.xpath("//a[contains(text(),'Log in')]"));
 	}
 //	---------------------------subelement-----------------------------------
 
 //	-------------------------------------------------------------------------
-	/**
-	 * @implNote- use this only when you know that element alaways visible.
-	 * @param locator
-	 * @return the webe leemnt ifit is vissible.else throws runtimre exception
-	 */
-	private WebElement finder(By locator) {
-		WebElement element = driver.findElement(locator);
-		wait.until(ExpectedConditions.visibilityOf(element));
-		if (element.isDisplayed()) {
-			return element;
-		} else
-			throw new RuntimeException("the elemnt is not visible.but it is present.that is why this custom exception");
-	}
 }
