@@ -107,7 +107,7 @@ public class NavBarPom {
 	}
 
 	public WebElement getSignUpLabel() {
-		return findWhenVisible(By.xpath("//a[contains(text(),'Sign up')]"));
+		return driver.findElement(By.id("signin2"));
 	}
 
 //	---------------------------subelement-----------------------------------
@@ -120,30 +120,80 @@ public class NavBarPom {
 	}
 
 	public WebElement signup_getCloseIcon() {
-		return signupMiniWindow().findElement(By.xpath(".//button[@class='close']"));
+		WebElement element = signupMiniWindow().findElement(By.xpath(".//button[@class='close']"));
+		wait.until(ExpectedConditions.visibilityOf(element));
+		return element;
 	}
 
 	public WebElement signup_getCloseButton() {
-		return signupMiniWindow().findElement(By.xpath(".//button[text()='Close']"));
+		WebElement element = signupMiniWindow().findElement(By.xpath(".//button[text()='Close']"));
+		wait.until(ExpectedConditions.visibilityOf(element));
+		return element;
 	}
 
 	public WebElement signup_getSignUpButton() {
-		return signupMiniWindow().findElement(By.xpath(".//button[text()='Sign up']"));
+		WebElement element = signupMiniWindow().findElement(By.xpath(".//button[text()='Sign up']"));
+		wait.until(ExpectedConditions.visibilityOf(element));
+		return element;
 	}
 
 	public WebElement signup_getUsernamefield() {
-		return signupMiniWindow().findElement(By.id("sign-username"));
+		WebElement element = signupMiniWindow().findElement(By.id("sign-username"));
+		wait.until(ExpectedConditions.visibilityOf(element));
+		return element;
 	}
 
 	public WebElement signup_getPasswordfield() {
-		return signupMiniWindow().findElement(By.id("sign-password"));
+		WebElement element = signupMiniWindow().findElement(By.id("sign-password"));
+		wait.until(ExpectedConditions.visibilityOf(element));
+		return element;
 	}
-//	-------------------------------------------------------------------------
 
+//	----------------------------------login label---------------------------------------
+	/**
+	 * 
+	 * @return webelement
+	 */
 	public WebElement getLoginLabel() {
-		return findWhenVisible(By.xpath("//a[contains(text(),'Log in')]"));
+		return driver.findElement(By.id("login2"));
 	}
+
 //	---------------------------subelement-----------------------------------
+	public boolean getLoginMiniWindowVisibility() {
+		return driver.findElement(By.xpath("//h5[@id='logInModalLabel']/../..")).isDisplayed();
+	}
+
+	/** return webelement when visible */
+	public WebElement giveLoginUsername() {
+		return findWhenVisible(By.id("loginusername"));
+	}
+
+	/** return webelement when visible */
+	public WebElement giveLoginPassword() {
+		return findWhenVisible(By.id("loginpassword"));
+	}
+
+	/** return webelement when visible */
+	public WebElement getLoginButton() {
+		return findWhenVisible(By.xpath("//button[text()='Log in']"));
+	}
+
+	/** return webelement when visible */
+	public WebElement getLoginPageCloseButton() {
+		return findWhenVisible(By.xpath("//button[text()='Log in']/preceding-sibling::button"));
+	}
+
+	/** return webelement when visible */
+	public WebElement getLoginPageCloseIcon() {
+		return findWhenVisible(By.xpath("//button[text()='Log in']/../button[text()='Close']"));
+	}
+	/**the profile name */
+	public WebElement getProfileLabel() {
+		return findWhenVisible(By.id("nameofuser"));
+	}
+	public WebElement logoutLabel() {
+		return driver.findElement(By.id("logout2"));
+	}
 
 //	-------------------------------------------------------------------------
 }

@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import baseTest.BaseTest;
 import pomClasses.NavBarPom;
@@ -111,6 +112,131 @@ public class NavBarTest extends BaseTest {
 		assertFalse(nav.aboutPopupWindowvisibility());
 	}
 
+	@Test(groups = { "smoke" })
+	public void signupFunctiontionalityTest() {// check if the signup label properly signs up user or not
+		String name = "tylor6654";// username for signup
+		String pass = "utre6789";// passwordfor signup
+
+		WebElement signUpLabel = nav.getSignUpLabel();
+		explicitWait.until(ExpectedConditions.visibilityOf(signUpLabel));
+		signUpLabel.click();
+
+		nav.signup_getUsernamefield().sendKeys(name);
+		nav.signup_getPasswordfield().sendKeys(pass);
+		PropertiesReader.updateValue("usename", name);
+		PropertiesReader.updateValue("password", pass);
+		// click to signup
+		WebElement signup = nav.signup_getSignUpButton();
+		signup.click();
+		explicitWait.until(ExpectedConditions.alertIsPresent());
+		Alert alert = driver.switchTo().alert();
+		// if user does bot exist, then run assertions.else throw a runtime exception
+		if (!alert.getText().equals("This user already exist.")) {
+			softAsrt.assertEquals(alert.getText(), "Sign up successful.");
+			alert.accept();
+			softAsrt.assertAll();
+		} else {
+			throw new RuntimeException("the usernameand/password already exist.signup with other credentials");
+		}
+	}
+
+	@Test(groups = { "smoke" })
+	public void blankOrPartialSignupTest() {// check if with no input i can sign up
+		WebElement signUpLabel = nav.getSignUpLabel();
+		explicitWait.until(ExpectedConditions.visibilityOf(signUpLabel));
+		signUpLabel.click();
+		nav.signup_getSignUpButton().click();
+		explicitWait.until(ExpectedConditions.alertIsPresent());
+		Alert alert = driver.switchTo().alert();
+		softAsrt.assertEquals(alert.getText(), "Please fill out Username and Password.");
+		alert.accept();
+		softAsrt.assertAll();
+	}
+
+	@Test(groups = { "smoke" })
+	public void signupCloseButtonTest() {
+		WebElement signUpLabel = nav.getSignUpLabel();
+		explicitWait.until(ExpectedConditions.visibilityOf(signUpLabel));
+		signUpLabel.click();
+
+		WebElement closeButton = nav.signup_getCloseButton();
+		closeButton.click();
+		explicitWait.until(ExpectedConditions.invisibilityOf(closeButton));
+		assertFalse(nav.signupMiniWindow().isDisplayed());
+	}
+
+	@Test(groups = { "smoke" })
+	public void signupCloseIconTest() {// check if the close icon works or not
+		WebElement signUpLabel = nav.getSignUpLabel();
+		explicitWait.until(ExpectedConditions.visibilityOf(signUpLabel));
+		signUpLabel.click();
+		WebElement closeButton = nav.signup_getCloseIcon();
+		closeButton.click();
+		explicitWait.until(ExpectedConditions.invisibilityOf(closeButton));
+		assertFalse(nav.signupMiniWindow().isDisplayed());
+	}
+
+	@Test(groups = { "smoke" })
+	public void loginFunctionalityCheck() {// check if you can login usinfg valid credentials
+		WebElement loginLabel = nav.getLoginLabel();
+		loginLabel.click();
+		explicitWait.until(ExpectedConditions.visibilityOf(loginLabel));
+		String username = PropertiesReader.getCredProperTy("usename");
+		nav.giveLoginUsername().sendKeys(username);
+		nav.giveLoginPassword().sendKeys(PropertiesReader.getCredProperTy("password"));
+		WebElement loginButton = nav.getLoginButton();
+		loginButton.click();
+		// wait for element to be uinvisible to check window got closed
+		explicitWait.until(ExpectedConditions.invisibilityOf(loginButton));
+		assertFalse(nav.getLoginMiniWindowVisibility());
+		String profile_name = nav.getProfileLabel().getText();
+		softAsrt.assertTrue(profile_name.contains(username));
+		// check if the logout button is viible not
+		softAsrt.assertTrue(nav.logoutLabel().isDisplayed(), "logout not visibile");
+		softAsrt.assertAll();
+	}
+
+	@Test(groups = { "smoke" })
+	public void blankLogin() {// check if blank login hapens ort not
+		WebElement loginLabel = nav.getLoginLabel();
+		loginLabel.click();
+		explicitWait.until(ExpectedConditions.visibilityOf(loginLabel));
+		WebElement loginButton = nav.getLoginButton();
+		loginButton.click();
+		// wait for element to be uinvisible to check window got closed
+		explicitWait.until(ExpectedConditions.alertIsPresent());
+		driver.switchTo().alert().accept();
+		nav.getLoginPageCloseButton().click();
+		softAsrt.assertFalse(nav.logoutLabel().isDisplayed());
+		softAsrt.assertAll();
+	}
+
+	@Test(groups = { "smoke" })
+	public void loginCloseButtonTest() {// check if the login [page close button works
+		nav.getLoginLabel().click();
+		WebElement closeButton = nav.getLoginPageCloseButton();
+		closeButton.click();
+		explicitWait.until(ExpectedConditions.invisibilityOf(closeButton));
+		softAsrt.assertFalse(nav.getLoginMiniWindowVisibility());
+	}
+
+	@Test(groups = { "smoke" })
+	public void loginCloseIconTest() {
+		nav.getLoginLabel().click();
+		WebElement closeButton = nav.getLoginPageCloseIcon();
+		closeButton.click();
+		explicitWait.until(ExpectedConditions.invisibilityOf(closeButton));
+		softAsrt.assertFalse(nav.getLoginMiniWindowVisibility());
+
+	}
+
+	@Test(groups = { "smoke" })
+	public void logoutTest() {
+		loginFunctionalityCheck();
+		nav.logoutLabel().click();;
+		assertFalse(nav.logoutLabel().isDisplayed());
+	}
+
 	@DataProvider
 	public Object[][] aboutUsCredentials() {// data provider for about us field
 		String message = PropertiesReader.getProperty("contactMessage");
@@ -129,5 +255,10 @@ public class NavBarTest extends BaseTest {
 		data[2][2] = "";// blank cases
 		data[2][3] = true;
 		return data;
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void clenaup() {
+		driver.manage().deleteAllCookies();
 	}
 }
