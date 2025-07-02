@@ -23,6 +23,12 @@ public class PropertiesReader {
 
 	}
 
+	/** get the value attached with the given key */
+	public static String getProperty(String key) {
+		return prop.getProperty(key);
+	}
+
+//----------------------------------credential file--------------------------------------------------------
 	private static Properties cred = new Properties();
 	private final static String credPath = System.getProperty("user.dir") + File.separator
 			+ "CredentialsDummy.properties";
@@ -36,13 +42,6 @@ public class PropertiesReader {
 			e.printStackTrace();
 		}
 	}
-
-	/** get the value attached with the given key */
-	public static String getProperty(String key) {
-		return prop.getProperty(key);
-	}
-
-//----------------------------------credential file--------------------------------------------------------
 	/**
 	 * 
 	 * @param keyname- the parameter whose value you want to update
